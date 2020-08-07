@@ -21,14 +21,14 @@ public class Utils {
 
     public static List<MildomInfo> getVideoList() {
         List<MildomInfo> videoList = new ArrayList<>();
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2016/06/22/SBP8G92E3_hd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2015/08/27/SB13F5AGJ_sd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2018/01/12/SD70VQJ74_sd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2017/05/31/SCKR8V6E9_hd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2016/01/11/SBC46Q9DV_hd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2018/04/19/SDEQS1GO6_hd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2018/01/25/SD82Q0AQE_hd.mp4"));
-        videoList.add(new MildomInfo("https://mov.bn.netease.com/open-movie/nos/mp4/2017/12/04/SD3SUEFFQ_hd.mp4"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10328078/10328078-1586756885/transcode/540p/10328078-1586756885-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10045957/10045957-1586728344712-9512/transcode/540p/10045957-1586728344712-9512-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10317434/10317434-1586719422/transcode/540p/10317434-1586719422-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10317408/10317408-1586680652/transcode/540p/10317408-1586680652-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10328078/10328078-1586646377560-3069/transcode/540p/10328078-1586646377560-3069-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10045957/10045957-1586638227507-8568/transcode/540p/10045957-1586638227507-8568-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10045957/10045957-1586638227507-8568/transcode/540p/10045957-1586638227507-8568-0.m3u8"));
+        videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10088339/10088339-1586611112334-51/transcode/540p/10088339-1586611112334-51-0.m3u8"));
         return videoList;
     }
     public static boolean isTopActivity(Activity activity) {
