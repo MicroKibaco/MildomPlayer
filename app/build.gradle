@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.github.microkibaco.mildom"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            //目前手机主流cpu架构是armeabi-v7a，所以通常情况下只考虑armeabi-v7a(除非特殊情况，比如TBS只有armeabi so库)
+            // https://zhuanlan.zhihu.com/p/26833002
+            // 1,如果同时保留 armeabi 和 armeabi-v7a 两个文件夹，则必须保证这两个文件夹中 .so 数量一致
+            // 2,如果只存在armeabi-v7a，则对只提供 armeabi 版本的第三方 .so，原样复制一份到 armeabi-v7a 文件夹
+            abiFilters 'armeabi-v7a'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        compileOptions{
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
+    lintOptions{
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // ijkplayer
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'com.kk.taurus.playerbase:playerbase:3.3.7'
+
+
+}
