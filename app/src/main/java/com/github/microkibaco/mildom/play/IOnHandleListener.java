@@ -1,6 +1,6 @@
 package com.github.microkibaco.mildom.play;
 
-public interface OnHandleListener {
+public interface IOnHandleListener {
 
     void onBack();
     void onToggleScreen();

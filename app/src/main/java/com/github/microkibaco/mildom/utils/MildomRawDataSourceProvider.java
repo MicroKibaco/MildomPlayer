@@ -20,13 +20,13 @@ import tv.danmaku.ijk.media.player.misc.IMediaDataSource;
  *
  * 功能描述:
  */
-public class RawDataSourceProvider implements IMediaDataSource {
+public class MildomRawDataSourceProvider implements IMediaDataSource {
 
     private AssetFileDescriptor mDescriptor;
 
     private byte[]  mMediaBytes;
 
-    private RawDataSourceProvider(AssetFileDescriptor descriptor) {
+    private MildomRawDataSourceProvider(AssetFileDescriptor descriptor) {
         this.mDescriptor = descriptor;
     }
 
@@ -86,10 +86,10 @@ public class RawDataSourceProvider implements IMediaDataSource {
         return byteBuffer.toByteArray();
     }
 
-    public static RawDataSourceProvider create(Context context, Uri uri){
+    public static MildomRawDataSourceProvider create(Context context, Uri uri){
         try {
             AssetFileDescriptor fileDescriptor = context.getContentResolver().openAssetFileDescriptor(uri, "r");
-            return new RawDataSourceProvider(fileDescriptor);
+            return new MildomRawDataSourceProvider(fileDescriptor);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

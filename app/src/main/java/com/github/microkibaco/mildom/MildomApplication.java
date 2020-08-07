@@ -8,11 +8,11 @@ import com.kk.taurus.playerbase.config.PlayerLibrary;
 import com.kk.taurus.playerbase.entity.DecoderPlan;
 import com.kk.taurus.playerbase.record.PlayRecordManager;
 
-public class App extends Application {
-    private static App instance;
+public class MildomApplication extends Application {
+    private static MildomApplication instance;
     public static final int PLAN_ID_IJK = 1;
 
-    public static App get() {
+    public static MildomApplication get() {
         return instance;
     }
     @Override

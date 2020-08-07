@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.github.microkibaco.mildom.R;
 import com.github.microkibaco.mildom.bean.MildomInfo;
-import com.github.microkibaco.mildom.play.ListPlayer;
+import com.github.microkibaco.mildom.play.MildomListPlayer;
 import com.github.microkibaco.mildom.utils.Utils;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolder> {
+public class MildomListAdapter extends RecyclerView.Adapter<MildomListAdapter.VideoItemHolder> {
 
 
     private Context mContext;
@@ -36,7 +36,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
     private int mPlayPosition = -1;
     private int mVerticalRecyclerStart;
 
-    public ListAdapter(Context context, RecyclerView recyclerView, List<MildomInfo> list) {
+    public MildomListAdapter(Context context, RecyclerView recyclerView, List<MildomInfo> list) {
         this.mContext = context;
         this.mRecycler = recyclerView;
         this.mItems = list;
@@ -64,7 +64,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
                 super.onScrolled(recyclerView, dx, dy);
                 int itemVisibleRectHeight = getItemVisibleRectHeight(mPlayPosition);
                 if (mPlayPosition >= 0 && itemVisibleRectHeight <= Utils.dip2px(mContext, 120) && dy != 0) {
-                    ListPlayer.get().stop();
+                    MildomListPlayer.get().stop();
                     notifyItemChanged(mPlayPosition);
                     mPlayPosition = -1;
                 }
@@ -108,7 +108,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
         }
     }
 
-    private void updateWh(ListAdapter.VideoItemHolder holder) {
+    private void updateWh(MildomListAdapter.VideoItemHolder holder) {
         ViewGroup.LayoutParams layoutParams = holder.layoutBox.getLayoutParams();
         layoutParams.width = mScreenUseW;
         layoutParams.height = mScreenUseW * 9 / 16;

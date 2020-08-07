@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.github.microkibaco.mildom.App;
-import com.github.microkibaco.mildom.base.BasePlayer;
+import com.github.microkibaco.mildom.MildomApplication;
+import com.github.microkibaco.mildom.base.BaseMildomPlayer;
 import com.github.microkibaco.mildom.utils.Utils;
 import com.kk.taurus.playerbase.assist.AssistPlay;
 import com.kk.taurus.playerbase.assist.OnAssistPlayEventHandler;
@@ -14,20 +14,20 @@ import com.kk.taurus.playerbase.entity.DataSource;
 
 import java.lang.ref.WeakReference;
 
-public class ListPlayer extends BasePlayer {
+public class MildomListPlayer extends BaseMildomPlayer {
 
-    private static ListPlayer i = null;
+    private static MildomListPlayer i = null;
 
-    private ListPlayer() {
+    private MildomListPlayer() {
     }
 
-    private OnHandleListener onHandleListener;
+    private IOnHandleListener onHandleListener;
 
     private WeakReference<Activity> mActivityRefer;
 
     @Override
     protected RelationAssist onCreateRelationAssist() {
-        RelationAssist assist = new RelationAssist(App.get().getApplicationContext());
+        RelationAssist assist = new RelationAssist(MildomApplication.get().getApplicationContext());
         assist.setEventAssistHandler(new OnAssistPlayEventHandler() {
             @Override
             public void requestRetry(AssistPlay assistPlay, Bundle bundle) {
@@ -47,11 +47,11 @@ public class ListPlayer extends BasePlayer {
     }
 
 
-    public static ListPlayer get() {
+    public static MildomListPlayer get() {
         if (i == null) {
-            synchronized (ListPlayer.class) {
+            synchronized (MildomListPlayer.class) {
                 if (i == null) {
-                    i = new ListPlayer();
+                    i = new MildomListPlayer();
                 }
             }
         }
@@ -69,7 +69,7 @@ public class ListPlayer extends BasePlayer {
 
     }
 
-    public void setOnHandleListener(OnHandleListener onHandleListener) {
+    public void setOnHandleListener(IOnHandleListener onHandleListener) {
         this.onHandleListener = onHandleListener;
     }
 
@@ -78,7 +78,7 @@ public class ListPlayer extends BasePlayer {
     public void setReceiverConfigState(Context context, int configState) {
 
         if (configState == RECEIVER_GROUP_CONFIG_LIST_STATE) {
-            removeReceiver(DataInter.ReceiverKey.KEY_GESTURE_COVER);
+            removeReceiver(IDataInter.ReceiverKey.KEY_GESTURE_COVER);
         }
     }
 
@@ -95,17 +95,17 @@ public class ListPlayer extends BasePlayer {
     @Override
     protected void onCallBackReceiverEvent(int eventCode, Bundle bundle) {
         switch (eventCode) {
-            case DataInter.Event.EVENT_CODE_REQUEST_BACK:
+            case IDataInter.Event.EVENT_CODE_REQUEST_BACK:
                 if (onHandleListener != null) {
                     onHandleListener.onBack();
                 }
                 break;
-            case DataInter.Event.EVENT_CODE_REQUEST_TOGGLE_SCREEN:
+            case IDataInter.Event.EVENT_CODE_REQUEST_TOGGLE_SCREEN:
                 if (onHandleListener != null) {
                     onHandleListener.onToggleScreen();
                 }
                 break;
-            case DataInter.Event.EVENT_CODE_ERROR_SHOW:
+            case IDataInter.Event.EVENT_CODE_ERROR_SHOW:
                 reset();
                 break;
             default:

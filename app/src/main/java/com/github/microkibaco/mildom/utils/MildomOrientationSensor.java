@@ -27,7 +27,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-public class OrientationSensor {
+public class MildomOrientationSensor {
 
     private final int MSG_SENSOR = 888;
 
@@ -87,7 +87,7 @@ public class OrientationSensor {
     };
 
 
-    public OrientationSensor(Activity activity, OnOrientationListener orientationListener) {
+    public MildomOrientationSensor(Activity activity, OnOrientationListener orientationListener) {
         this.onOrientationListener = orientationListener;
 
         // 注册重力感应器,监听屏幕旋转

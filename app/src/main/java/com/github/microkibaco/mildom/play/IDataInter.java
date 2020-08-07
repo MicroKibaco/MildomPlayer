@@ -3,7 +3,7 @@ package com.github.microkibaco.mildom.play;
 import com.kk.taurus.playerbase.assist.InterEvent;
 import com.kk.taurus.playerbase.assist.InterKey;
 
-public interface DataInter {
+public interface IDataInter {
 
     interface Event extends InterEvent{
 

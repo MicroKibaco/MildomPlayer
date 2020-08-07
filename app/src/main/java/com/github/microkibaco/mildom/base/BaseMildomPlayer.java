@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * @author MicroKibaco
  */
-public abstract class BasePlayer implements IPayer {
+public abstract class BaseMildomPlayer implements IPayer {
 
     private RelationAssist mRelationAssist;
 
-    protected BasePlayer(){
+    protected BaseMildomPlayer(){
         mRelationAssist = onCreateRelationAssist();
         mOnPlayerEventListeners = new ArrayList<>();
         mOnErrorEventListeners = new ArrayList<>();

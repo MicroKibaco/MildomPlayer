@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.github.microkibaco.mildom.R;
-import com.github.microkibaco.mildom.adapter.ListAdapter;
+import com.github.microkibaco.mildom.adapter.MildomListAdapter;
 import com.github.microkibaco.mildom.base.IPayer;
 import com.github.microkibaco.mildom.bean.MildomInfo;
-import com.github.microkibaco.mildom.play.DataInter;
-import com.github.microkibaco.mildom.play.ListPlayer;
-import com.github.microkibaco.mildom.play.OnHandleListener;
-import com.github.microkibaco.mildom.utils.OrientationSensor;
+import com.github.microkibaco.mildom.play.IDataInter;
+import com.github.microkibaco.mildom.play.MildomListPlayer;
+import com.github.microkibaco.mildom.play.IOnHandleListener;
+import com.github.microkibaco.mildom.utils.MildomOrientationSensor;
 import com.github.microkibaco.mildom.utils.Utils;
 import com.kk.taurus.playerbase.entity.DataSource;
 import com.kk.taurus.playerbase.player.IPlayer;
@@ -25,16 +25,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListPlayActivity extends AppCompatActivity implements ListAdapter.OnListListener {
+public class MildomListPlayActivity extends AppCompatActivity implements MildomListAdapter.OnListListener {
 
     private RecyclerView mRecycler;
     private FrameLayout mPlayerContainer;
 
     private boolean isLandScape;
-    private ListAdapter mAdapter;
+    private MildomListAdapter mAdapter;
     private boolean toDetail;
 
-    private OrientationSensor mOrientationSensor;
+    private MildomOrientationSensor mOrientationSensor;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -49,27 +49,27 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
         mPlayerContainer = findViewById(R.id.listPlayContainer);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new ListAdapter(this, mRecycler, Utils.getVideoList());
+        mAdapter = new MildomListAdapter(this, mRecycler, Utils.getVideoList());
         mAdapter.setOnListListener(this);
         mRecycler.setAdapter(mAdapter);
 
-        mOrientationSensor = new OrientationSensor(this, onOrientationListener);
+        mOrientationSensor = new MildomOrientationSensor(this, onOrientationListener);
         mOrientationSensor.enable();
 
     }
 
-    private OrientationSensor.OnOrientationListener onOrientationListener =
-            new OrientationSensor.OnOrientationListener() {
+    private MildomOrientationSensor.OnOrientationListener onOrientationListener =
+            new MildomOrientationSensor.OnOrientationListener() {
                 @Override
                 public void onLandScape(int orientation) {
-                    if (ListPlayer.get().isInPlaybackState()) {
+                    if (MildomListPlayer.get().isInPlaybackState()) {
                         setRequestedOrientation(orientation);
                     }
                 }
 
                 @Override
                 public void onPortrait(int orientation) {
-                    if (ListPlayer.get().isInPlaybackState()) {
+                    if (MildomListPlayer.get().isInPlaybackState()) {
                         setRequestedOrientation(orientation);
                     }
                 }
@@ -81,24 +81,24 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
         isLandScape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mPlayerContainer.setBackgroundColor(Color.BLACK);
-            ListPlayer.get().attachContainer(mPlayerContainer, false);
-            ListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE);
+            MildomListPlayer.get().attachContainer(mPlayerContainer, false);
+            MildomListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE);
         } else {
             mPlayerContainer.setBackgroundColor(Color.TRANSPARENT);
             mRecycler.post(new Runnable() {
                 @Override
                 public void run() {
-                    ListAdapter.VideoItemHolder currentHolder = mAdapter.getCurrentHolder();
+                    MildomListAdapter.VideoItemHolder currentHolder = mAdapter.getCurrentHolder();
                     if (currentHolder != null) {
-                        ListPlayer.get().attachContainer(currentHolder.layoutContainer, false);
-                        ListPlayer.get().setReceiverConfigState(
-                                ListPlayActivity.this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
+                        MildomListPlayer.get().attachContainer(currentHolder.layoutContainer, false);
+                        MildomListPlayer.get().setReceiverConfigState(
+                                MildomListPlayActivity.this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
                     }
                 }
             });
         }
-        ListPlayer.get().updateGroupValue(DataInter.Key.KEY_CONTROLLER_TOP_ENABLE, isLandScape);
-        ListPlayer.get().updateGroupValue(DataInter.Key.KEY_IS_LANDSCAPE, isLandScape);
+        MildomListPlayer.get().updateGroupValue(IDataInter.Key.KEY_CONTROLLER_TOP_ENABLE, isLandScape);
+        MildomListPlayer.get().updateGroupValue(IDataInter.Key.KEY_IS_LANDSCAPE, isLandScape);
     }
 
     private void toggleScreen() {
@@ -110,8 +110,8 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
     @Override
     protected void onResume() {
         super.onResume();
-        ListPlayer.get().updateGroupValue(DataInter.Key.KEY_CONTROLLER_TOP_ENABLE, isLandScape);
-        ListPlayer.get().setOnHandleListener(new OnHandleListener() {
+        MildomListPlayer.get().updateGroupValue(IDataInter.Key.KEY_CONTROLLER_TOP_ENABLE, isLandScape);
+        MildomListPlayer.get().setOnHandleListener(new IOnHandleListener() {
             @Override
             public void onBack() {
                 onBackPressed();
@@ -122,8 +122,8 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
                 toggleScreen();
             }
         });
-        if (!toDetail && ListPlayer.get().isInPlaybackState()) {
-            ListPlayer.get().resume();
+        if (!toDetail && MildomListPlayer.get().isInPlaybackState()) {
+            MildomListPlayer.get().resume();
         }
         toDetail = false;
     }
@@ -131,19 +131,19 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
     @Override
     protected void onPause() {
         super.onPause();
-        int state = ListPlayer.get().getState();
+        int state = MildomListPlayer.get().getState();
         if (state == IPlayer.STATE_PLAYBACK_COMPLETE) {
             return;
         }
         if (!toDetail) {
-            ListPlayer.get().pause();
+            MildomListPlayer.get().pause();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        ListPlayer.get().attachActivity(this);
+        MildomListPlayer.get().attachActivity(this);
         mOrientationSensor.enable();
     }
 
@@ -164,16 +164,16 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
 
 
     @Override
-    public void playItem(ListAdapter.VideoItemHolder holder, MildomInfo item, int position) {
-        ListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
-        ListPlayer.get().attachContainer(holder.layoutContainer);
-        ListPlayer.get().play(new DataSource(item.getPath()));
+    public void playItem(MildomListAdapter.VideoItemHolder holder, MildomInfo item, int position) {
+        MildomListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
+        MildomListPlayer.get().attachContainer(holder.layoutContainer);
+        MildomListPlayer.get().play(new DataSource(item.getPath()));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mOrientationSensor.disable();
-        ListPlayer.get().destroy();
+        MildomListPlayer.get().destroy();
     }
 }
