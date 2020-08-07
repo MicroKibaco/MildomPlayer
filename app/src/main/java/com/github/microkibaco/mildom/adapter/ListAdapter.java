@@ -63,7 +63,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int itemVisibleRectHeight = getItemVisibleRectHeight(mPlayPosition);
-                if (mPlayPosition >= 0 && itemVisibleRectHeight <= 0 && dy != 0) {
+                if (mPlayPosition >= 0 && itemVisibleRectHeight <= Utils.dip2px(mContext, 120) && dy != 0) {
                     ListPlayer.get().stop();
                     notifyItemChanged(mPlayPosition);
                     mPlayPosition = -1;
@@ -71,9 +71,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
             }
         });
     }
-
-
-
 
 
     public void setOnListListener(OnListListener onListListener) {
@@ -91,7 +88,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.VideoItemHolde
         ViewCompat.setElevation(holder.card, Utils.dip2px(mContext, 3));
         updateWh(holder);
         final MildomInfo item = getItem(position);
-         holder.albumImage.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_launcher));
+        holder.albumImage.setBackground(mContext.getResources().getDrawable(R.mipmap.ic_launcher));
 
         holder.layoutContainer.removeAllViews();
         holder.playIcon.setVisibility(mPlayPosition == position ? View.GONE : View.VISIBLE);

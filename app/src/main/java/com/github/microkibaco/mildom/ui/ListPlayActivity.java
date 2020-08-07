@@ -1,5 +1,6 @@
 package com.github.microkibaco.mildom.ui;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -35,12 +36,14 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
 
     private OrientationSensor mOrientationSensor;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mRecycler = findViewById(R.id.recycler);
         mPlayerContainer = findViewById(R.id.listPlayContainer);
@@ -50,42 +53,43 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
         mAdapter.setOnListListener(this);
         mRecycler.setAdapter(mAdapter);
 
-        mOrientationSensor = new OrientationSensor(this,onOrientationListener);
+        mOrientationSensor = new OrientationSensor(this, onOrientationListener);
         mOrientationSensor.enable();
 
     }
 
     private OrientationSensor.OnOrientationListener onOrientationListener =
             new OrientationSensor.OnOrientationListener() {
-        @Override
-        public void onLandScape(int orientation) {
-            if(ListPlayer.get().isInPlaybackState()){
-                setRequestedOrientation(orientation);
-            }
-        }
-        @Override
-        public void onPortrait(int orientation) {
-            if(ListPlayer.get().isInPlaybackState()){
-                setRequestedOrientation(orientation);
-            }
-        }
-    };
+                @Override
+                public void onLandScape(int orientation) {
+                    if (ListPlayer.get().isInPlaybackState()) {
+                        setRequestedOrientation(orientation);
+                    }
+                }
+
+                @Override
+                public void onPortrait(int orientation) {
+                    if (ListPlayer.get().isInPlaybackState()) {
+                        setRequestedOrientation(orientation);
+                    }
+                }
+            };
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         isLandScape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mPlayerContainer.setBackgroundColor(Color.BLACK);
             ListPlayer.get().attachContainer(mPlayerContainer, false);
             ListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE);
-        }else{
+        } else {
             mPlayerContainer.setBackgroundColor(Color.TRANSPARENT);
             mRecycler.post(new Runnable() {
                 @Override
                 public void run() {
                     ListAdapter.VideoItemHolder currentHolder = mAdapter.getCurrentHolder();
-                    if(currentHolder!=null){
+                    if (currentHolder != null) {
                         ListPlayer.get().attachContainer(currentHolder.layoutContainer, false);
                         ListPlayer.get().setReceiverConfigState(
                                 ListPlayActivity.this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
@@ -97,9 +101,9 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
         ListPlayer.get().updateGroupValue(DataInter.Key.KEY_IS_LANDSCAPE, isLandScape);
     }
 
-    private void toggleScreen(){
-        setRequestedOrientation(isLandScape?
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:
+    private void toggleScreen() {
+        setRequestedOrientation(isLandScape ?
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT :
                 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
@@ -112,12 +116,13 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
             public void onBack() {
                 onBackPressed();
             }
+
             @Override
             public void onToggleScreen() {
                 toggleScreen();
             }
         });
-        if(!toDetail && ListPlayer.get().isInPlaybackState()){
+        if (!toDetail && ListPlayer.get().isInPlaybackState()) {
             ListPlayer.get().resume();
         }
         toDetail = false;
@@ -127,10 +132,10 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
     protected void onPause() {
         super.onPause();
         int state = ListPlayer.get().getState();
-        if(state == IPlayer.STATE_PLAYBACK_COMPLETE) {
+        if (state == IPlayer.STATE_PLAYBACK_COMPLETE) {
             return;
         }
-        if(!toDetail){
+        if (!toDetail) {
             ListPlayer.get().pause();
         }
     }
@@ -150,13 +155,12 @@ public class ListPlayActivity extends AppCompatActivity implements ListAdapter.O
 
     @Override
     public void onBackPressed() {
-        if(isLandScape){
+        if (isLandScape) {
             toggleScreen();
             return;
         }
         super.onBackPressed();
     }
-
 
 
     @Override
