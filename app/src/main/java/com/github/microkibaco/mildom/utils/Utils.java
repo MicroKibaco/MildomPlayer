@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Utils {
 
-
     public static List<MildomInfo> getVideoList() {
         List<MildomInfo> videoList = new ArrayList<>();
         videoList.add(new MildomInfo("https://d3ooprpqd2179o.cloudfront.net/vod/jp/10328078/10328078-1586756885/transcode/540p/10328078-1586756885-0.m3u8"));
