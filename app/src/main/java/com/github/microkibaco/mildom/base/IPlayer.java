@@ -8,7 +8,7 @@ import com.kk.taurus.playerbase.receiver.GroupValue;
 import com.kk.taurus.playerbase.receiver.IReceiverGroup;
 
 /**
- * Created by JiaJunHui on 2018/6/21.
+ * Created by 小木箱 on 2018/6/21.
  */
 public interface IPlayer {
 

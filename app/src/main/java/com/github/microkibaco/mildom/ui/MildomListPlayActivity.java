@@ -24,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 视频播放列表
+ */
 public class MildomListPlayActivity extends AppCompatActivity implements MildomListAdapter.OnListListener {
 
     private RecyclerView mRecycler;

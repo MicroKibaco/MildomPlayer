@@ -142,9 +142,7 @@ public class MildomOrientationSensor {
         sm1.unregisterListener(listener1);
     }
 
-    public boolean isPortrait() {
-        return this.isPortrait;
-    }
+
 
     /**
      * 重力感应监听者

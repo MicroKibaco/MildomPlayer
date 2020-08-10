@@ -114,12 +114,6 @@ public abstract class BaseMildomPlayer implements IPlayer {
         }
     }
 
-
-
-
-
-
-
     @Override
     public IReceiverGroup getReceiverGroup(){
         return mRelationAssist.getReceiverGroup();
