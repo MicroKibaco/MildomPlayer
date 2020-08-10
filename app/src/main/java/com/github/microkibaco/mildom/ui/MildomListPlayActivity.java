@@ -9,15 +9,14 @@ import android.widget.FrameLayout;
 
 import com.github.microkibaco.mildom.R;
 import com.github.microkibaco.mildom.adapter.MildomListAdapter;
-import com.github.microkibaco.mildom.base.IPayer;
+import com.github.microkibaco.mildom.base.IPlayer;
 import com.github.microkibaco.mildom.bean.MildomInfo;
 import com.github.microkibaco.mildom.play.IDataInter;
 import com.github.microkibaco.mildom.play.MildomListPlayer;
-import com.github.microkibaco.mildom.play.IOnHandleListener;
+import com.github.microkibaco.mildom.play.IonHandleListener;
 import com.github.microkibaco.mildom.utils.MildomOrientationSensor;
 import com.github.microkibaco.mildom.utils.Utils;
 import com.kk.taurus.playerbase.entity.DataSource;
-import com.kk.taurus.playerbase.player.IPlayer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,7 +81,7 @@ public class MildomListPlayActivity extends AppCompatActivity implements MildomL
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mPlayerContainer.setBackgroundColor(Color.BLACK);
             MildomListPlayer.get().attachContainer(mPlayerContainer, false);
-            MildomListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE);
+            MildomListPlayer.get().setReceiverConfigState(this, IPlayer.RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE);
         } else {
             mPlayerContainer.setBackgroundColor(Color.TRANSPARENT);
             mRecycler.post(new Runnable() {
@@ -92,7 +91,7 @@ public class MildomListPlayActivity extends AppCompatActivity implements MildomL
                     if (currentHolder != null) {
                         MildomListPlayer.get().attachContainer(currentHolder.layoutContainer, false);
                         MildomListPlayer.get().setReceiverConfigState(
-                                MildomListPlayActivity.this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
+                                MildomListPlayActivity.this, IPlayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
                     }
                 }
             });
@@ -111,7 +110,7 @@ public class MildomListPlayActivity extends AppCompatActivity implements MildomL
     protected void onResume() {
         super.onResume();
         MildomListPlayer.get().updateGroupValue(IDataInter.Key.KEY_CONTROLLER_TOP_ENABLE, isLandScape);
-        MildomListPlayer.get().setOnHandleListener(new IOnHandleListener() {
+        MildomListPlayer.get().setOnHandleListener(new IonHandleListener() {
             @Override
             public void onBack() {
                 onBackPressed();
@@ -132,7 +131,7 @@ public class MildomListPlayActivity extends AppCompatActivity implements MildomL
     protected void onPause() {
         super.onPause();
         int state = MildomListPlayer.get().getState();
-        if (state == IPlayer.STATE_PLAYBACK_COMPLETE) {
+        if (state == com.kk.taurus.playerbase.player.IPlayer.STATE_PLAYBACK_COMPLETE) {
             return;
         }
         if (!toDetail) {
@@ -165,7 +164,7 @@ public class MildomListPlayActivity extends AppCompatActivity implements MildomL
 
     @Override
     public void playItem(MildomListAdapter.VideoItemHolder holder, MildomInfo item, int position) {
-        MildomListPlayer.get().setReceiverConfigState(this, IPayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
+        MildomListPlayer.get().setReceiverConfigState(this, IPlayer.RECEIVER_GROUP_CONFIG_LIST_STATE);
         MildomListPlayer.get().attachContainer(holder.layoutContainer);
         MildomListPlayer.get().play(new DataSource(item.getPath()));
     }

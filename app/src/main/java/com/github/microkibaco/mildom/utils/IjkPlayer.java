@@ -166,8 +166,7 @@ public class IjkPlayer extends BaseInternalPlayer {
                 }
             } else if (!TextUtils.isEmpty(assetsPath)) {
                 Log.e(TAG, "ijkplayer not support assets play, you can use raw play.");
-            } else if (rawId > 0
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            } else if (rawId > 0) {
                 Uri rawUri = DataSource.buildRawPath(applicationContext.getPackageName(), rawId);
                 mMediaPlayer.setDataSource(MildomRawDataSourceProvider.create(applicationContext, rawUri));
             }

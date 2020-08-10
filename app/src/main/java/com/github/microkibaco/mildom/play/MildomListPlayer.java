@@ -21,7 +21,7 @@ public class MildomListPlayer extends BaseMildomPlayer {
     private MildomListPlayer() {
     }
 
-    private IOnHandleListener onHandleListener;
+    private IonHandleListener onHandleListener;
 
     private WeakReference<Activity> mActivityRefer;
 
@@ -69,7 +69,7 @@ public class MildomListPlayer extends BaseMildomPlayer {
 
     }
 
-    public void setOnHandleListener(IOnHandleListener onHandleListener) {
+    public void setOnHandleListener(IonHandleListener onHandleListener) {
         this.onHandleListener = onHandleListener;
     }
 

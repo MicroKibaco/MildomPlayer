@@ -8,7 +8,6 @@ import com.kk.taurus.playerbase.entity.DataSource;
 import com.kk.taurus.playerbase.event.OnErrorEventListener;
 import com.kk.taurus.playerbase.event.OnPlayerEventListener;
 import com.kk.taurus.playerbase.log.PLog;
-import com.kk.taurus.playerbase.player.IPlayer;
 import com.kk.taurus.playerbase.receiver.GroupValue;
 import com.kk.taurus.playerbase.receiver.IReceiverGroup;
 import com.kk.taurus.playerbase.receiver.OnReceiverEventListener;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * @author MicroKibaco
  */
-public abstract class BaseMildomPlayer implements IPayer {
+public abstract class BaseMildomPlayer implements IPlayer {
 
     private RelationAssist mRelationAssist;
 
@@ -165,12 +164,12 @@ public abstract class BaseMildomPlayer implements IPayer {
     public boolean isInPlaybackState(){
         int state = getState();
         PLog.d("BSPlayer","isInPlaybackState : state = " + state);
-        return state!= IPlayer.STATE_END
-                && state!= IPlayer.STATE_ERROR
-                && state!= IPlayer.STATE_IDLE
-                && state!= IPlayer.STATE_INITIALIZED
-                && state!= IPlayer.STATE_PLAYBACK_COMPLETE
-                && state!= IPlayer.STATE_STOPPED;
+        return state!= com.kk.taurus.playerbase.player.IPlayer.STATE_END
+                && state!= com.kk.taurus.playerbase.player.IPlayer.STATE_ERROR
+                && state!= com.kk.taurus.playerbase.player.IPlayer.STATE_IDLE
+                && state!= com.kk.taurus.playerbase.player.IPlayer.STATE_INITIALIZED
+                && state!= com.kk.taurus.playerbase.player.IPlayer.STATE_PLAYBACK_COMPLETE
+                && state!= com.kk.taurus.playerbase.player.IPlayer.STATE_STOPPED;
     }
 
 

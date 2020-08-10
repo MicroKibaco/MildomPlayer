@@ -10,7 +10,7 @@ import com.kk.taurus.playerbase.receiver.IReceiverGroup;
 /**
  * Created by JiaJunHui on 2018/6/21.
  */
-public interface IPayer {
+public interface IPlayer {
 
      int RECEIVER_GROUP_CONFIG_LIST_STATE = 2;
      int RECEIVER_GROUP_CONFIG_FULL_SCREEN_STATE = 4;

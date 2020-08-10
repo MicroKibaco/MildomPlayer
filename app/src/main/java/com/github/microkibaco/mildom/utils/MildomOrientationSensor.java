@@ -44,11 +44,25 @@ public class MildomOrientationSensor {
     private Sensor sensor1;
     private OrientationSensorListener1 listener1;
 
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_SENSOR:
+
+    public MildomOrientationSensor(Activity activity, OnOrientationListener orientationListener) {
+        this.onOrientationListener = orientationListener;
+
+        // 注册重力感应器,监听屏幕旋转
+        sm = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+        sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //切换成横屏反向：ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+        /*
+         * 切换成竖屏反向：ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT(9),
+         * ActivityInfo.SCREEN_ORIENTATION_SENSOR:根据重力感应自动旋转
+         * 此处正常应该是上面第一个属性，但是在真机测试时显示为竖屏正向，所以用第二个替代
+         */
+        //切换成横屏：ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        //切换成竖屏ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == MSG_SENSOR) {
                     int orientation = msg.arg1;
                     if (orientation > 45 && orientation < 135) {
                         if (isPortrait) {
@@ -79,21 +93,10 @@ public class MildomOrientationSensor {
                             isPortrait = true;
                         }
                     }
-                    break;
-                default:
-                    break;
+                }
             }
-        }
-    };
-
-
-    public MildomOrientationSensor(Activity activity, OnOrientationListener orientationListener) {
-        this.onOrientationListener = orientationListener;
-
-        // 注册重力感应器,监听屏幕旋转
-        sm = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        listener = new OrientationSensorListener(mHandler);
+        };
+        listener = new OrientationSensorListener(handler);
 
         // 根据 旋转之后/点击全屏之后 两者方向一致,激活sm.
         sm1 = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
@@ -102,13 +105,15 @@ public class MildomOrientationSensor {
     }
 
     private void callbackOnLandScape(int orientation) {
-        if (onOrientationListener != null)
+        if (onOrientationListener != null) {
             onOrientationListener.onLandScape(orientation);
+        }
     }
 
     private void callbackOnPortrait() {
-        if (onOrientationListener != null)
+        if (onOrientationListener != null) {
             onOrientationListener.onPortrait(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     /**
@@ -195,9 +200,9 @@ public class MildomOrientationSensor {
         private static final int DATA_Y = 1;
         private static final int DATA_Z = 2;
 
-        public static final int ORIENTATION_UNKNOWN = -1;
+        static final int ORIENTATION_UNKNOWN = -1;
 
-        public OrientationSensorListener1() {
+        OrientationSensorListener1() {
         }
 
         @Override
@@ -208,16 +213,16 @@ public class MildomOrientationSensor {
         public void onSensorChanged(SensorEvent event) {
             float[] values = event.values;
             int orientation = ORIENTATION_UNKNOWN;
-            float X = -values[DATA_X];
-            float Y = -values[DATA_Y];
-            float Z = -values[DATA_Z];
-            float magnitude = X * X + Y * Y;
+            float x = -values[DATA_X];
+            float y = -values[DATA_Y];
+            float z = -values[DATA_Z];
+            float magnitude = x * x + y * y;
             // Don't trust the angle if the magnitude is small compared to the y
             // value
-            if (magnitude * 4 >= Z * Z) {
+            if (magnitude * 4 >= z * z) {
                 // 屏幕旋转时
                 float oneEightyOverPi = 57.29577957855f;
-                float angle = (float) Math.atan2(-Y, X) * oneEightyOverPi;
+                float angle = (float) Math.atan2(-y, x) * oneEightyOverPi;
                 orientation = 90 - (int) Math.round(angle);
                 // normalize to 0 - 359 range
                 while (orientation >= 360) {

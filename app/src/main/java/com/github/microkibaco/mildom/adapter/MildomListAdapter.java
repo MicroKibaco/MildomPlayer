@@ -63,7 +63,7 @@ public class MildomListAdapter extends RecyclerView.Adapter<MildomListAdapter.Vi
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int itemVisibleRectHeight = getItemVisibleRectHeight(mPlayPosition);
-                if (mPlayPosition >= 0 && itemVisibleRectHeight <= Utils.dip2px(mContext, 120) && dy != 0) {
+                if (mPlayPosition >= 0 && itemVisibleRectHeight <= Utils.dip2px(mContext, 130) && dy != 0) {
                     MildomListPlayer.get().stop();
                     notifyItemChanged(mPlayPosition);
                     mPlayPosition = -1;
